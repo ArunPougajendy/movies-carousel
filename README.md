@@ -55,10 +55,8 @@ You can find it in the Mac App Store
 ### Start Expo
 
 Run `expo start`
-<<<<<<< HEAD
 
 ### API_KEY
-
-Register free account with [TMDB](https://developers.themoviedb.org/) or contact the Developer
-=======
->>>>>>> bc43f7fc08755bf1192ade6d632adaec4b8f16d9
+Register free account with 
+[TMDB](https://developers.themoviedb.org/) 
+or contact the Developer
