@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     height: BACKDROP_HEIGHT,
     width: width,
-    backgroundColor: 'red',
+    backgroundColor: 'white',
   },
   backdropImage: {
     position: 'absolute',

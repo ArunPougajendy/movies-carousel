@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { StatusBar, Text, View, Animated, Image } from 'react-native';
 
 import { data } from '../../../data';
-import Genre from '../../components/Genre';
-import Rating from '../../components/Rating';
-import Backdrop from '../../components/Backdrop';
+import Genre from '../../components/Home/Genre';
+import Rating from '../../components//Home/Rating';
+import Backdrop from '../../components/Home/Backdrop';
 import { getMovies, MovieType } from '../../../actions/movies';
 import styles, { ITEM_SIZE } from './styles';
+import Loader from '../../components/Home/Loading';
 interface Props {
   route: any;
   navigation: any;
@@ -56,7 +57,7 @@ export default function Home(props: Props) {
   if (movies.length === 0) {
     return (
       <View style={[styles.container, { justifyContent: 'center' }]}>
-        <Text style={{ alignSelf: 'center' }}>Loading ...</Text>
+        <Loader />
       </View>
     );
   }

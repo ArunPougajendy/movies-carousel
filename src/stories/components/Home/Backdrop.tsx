@@ -4,11 +4,11 @@ import MaskedView from '@react-native-community/masked-view';
 import Svg, { Rect } from 'react-native-svg';
 import { LinearGradient } from 'expo-linear-gradient';
 
-import { MovieType } from '../../actions/movies';
-import styles, { width, height, ITEM_SIZE } from '../screens/Home/styles';
+import { MovieType } from '../../../actions/movies';
+import styles, { width, height, ITEM_SIZE } from '../../screens/Home/styles';
 
 interface Props {
-  movies: MovieType[];
+  movies: any[];
   scrollX: Animated.Value;
 }
 const AnimatedSvg = Animated.createAnimatedComponent(Svg);
