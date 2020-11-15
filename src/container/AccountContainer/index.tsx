@@ -12,6 +12,7 @@ export interface Props {
 function AccountContainer(props: Props) {
   return (
     <SafeAreaView style={{ flex: 1, paddingBottom: 0 }}>
+      <StatusBar hidden />
       <Account route={props.route} navigation={props.navigation} />
     </SafeAreaView>
   );

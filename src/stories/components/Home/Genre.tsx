@@ -3,11 +3,12 @@ import { View, Text, StyleSheet } from 'react-native';
 
 interface GenreProps {
   genres: string[];
+  customStyle?: any;
 }
 
 function Genre(props: GenreProps) {
   return (
-    <View style={styles.genresContainer}>
+    <View style={[styles.genresContainer, props.customStyle]}>
       {props.genres.map((genre: string, index: number) => (
         <View key={index} style={styles.genre}>
           <Text style={styles.genreText}>{genre}</Text>

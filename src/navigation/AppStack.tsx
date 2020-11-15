@@ -16,7 +16,7 @@ const android = Platform.OS === 'android';
 export default function () {
   return (
     <Tab.Navigator
-      initialRouteName='Home'
+      initialRouteName='Account'
       lazy={false}
       tabBarOptions={{
         activeTintColor: '#1D2531',
