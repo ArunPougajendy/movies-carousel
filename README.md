@@ -28,7 +28,7 @@ I used the Airbnb Javascript style guide <https://github.com/airbnb/javascript>.
 On the command prompt run the following commands
 
 ```sh
-$ git clone
+$ git clone https://github.com/ArunPougajendy/movies-carousel.git
 
 $ cd movies-carousel/
 
@@ -51,3 +51,9 @@ You can find it in the Mac App Store
 ### Start Expo
 
 Run `expo start`
+
+### Sample Screenshots
+
+![alt text] (https://github.com/ArunPougajendy/movies-carousel/tree/master/assets/Screenshots/initial.png?raw=true)
+![alt text] (https://github.com/ArunPougajendy/movies-carousel/tree/master/assets/Screenshots/swipe.png?raw=true)
+![alt text] (https://github.com/ArunPougajendy/movies-carousel/tree/master/assets/Screenshots/complete.png?raw=true)
