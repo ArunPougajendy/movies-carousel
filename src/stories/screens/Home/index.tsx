@@ -1,63 +1,54 @@
 import React, { useEffect, useState } from 'react';
-import { StatusBar, Text, View, Animated, Image } from 'react-native';
+import {
+  StatusBar,
+  Text,
+  View,
+  Animated,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
 
-import { data } from '../../../data';
 import Genre from '../../components/Home/Genre';
 import Rating from '../../components//Home/Rating';
 import Backdrop from '../../components/Home/Backdrop';
 import { getMovies, MovieType } from '../../../actions/movies';
 import styles, { ITEM_SIZE } from './styles';
 import Loader from '../../components/Home/Loading';
+import { isApikeyAvailable } from '../../../utils/helper';
 interface Props {
   route: any;
   navigation: any;
 }
 
-const getImagePath = (path: string) =>
-  `https://image.tmdb.org/t/p/w440_and_h660_face${path}`;
-const getBackdropPath = (path: string) =>
-  `https://image.tmdb.org/t/p/w370_and_h556_multi_faces${path}`;
-
-const movies = data.map(
-  ({
-    id,
-    original_title,
-    poster_path,
-    backdrop_path,
-    vote_average,
-    overview,
-    release_date,
-    genres,
-  }) => ({
-    key: String(id),
-    title: original_title,
-    poster: getImagePath(poster_path),
-    backdrop: getBackdropPath(backdrop_path),
-    rating: vote_average,
-    description: overview,
-    releaseDate: release_date,
-    genres: genres.map(({ id, name }) => name),
-  }),
-);
-
-const orgData = [{ key: 'left-Spact' }, ...movies, { key: 'right-Spact' }];
-
 export default function Home(props: Props) {
   const scrollX = React.useRef(new Animated.Value(0)).current;
   const [movies, setMovies] = useState<any>([]);
   useEffect(() => {
-    const fetchData = async () => {
-      const movies = await getMovies();
-      setMovies([{ key: 'left-spacer' }, ...movies, { key: 'right-spacer' }]);
-    };
-    if (movies.length === 0) {
-      fetchData();
-    }
+    fetchMoviesHelper();
   }, []);
+
+  const fetchMoviesHelper = () => {
+    if (isApikeyAvailable()) {
+      const fetchData = async () => {
+        const movies = await getMovies();
+        setMovies([{ key: 'left-spacer' }, ...movies, { key: 'right-spacer' }]);
+      };
+      if (movies.length === 0) {
+        fetchData();
+      }
+    } else {
+      alert('API_KEY not available \n Register or contact Developer');
+    }
+  };
   if (movies.length === 0) {
     return (
       <View style={[styles.container, { justifyContent: 'center' }]}>
         <Loader />
+        <TouchableOpacity
+          onPress={fetchMoviesHelper}
+          style={styles.retryButton}>
+          <Text style={{ color: 'white' }}>Retry</Text>
+        </TouchableOpacity>
       </View>
     );
   }

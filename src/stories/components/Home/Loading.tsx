@@ -19,7 +19,7 @@ export default Loader;
 
 const styles = StyleSheet.create({
   animationContainer: {
-    flex: 1,
+    height: 500,
     alignItems: 'center',
     justifyContent: 'center',
   },
