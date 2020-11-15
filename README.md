@@ -1,7 +1,11 @@
 # React Naitve Carousel Animation
 
+## Demo
+
+![demogif](https://user-images.githubusercontent.com/46255160/99196398-239bb100-27b2-11eb-9f8f-60cb87d97973.gif)
+
 Implemented React Native carousel animation for displaying Movies
-The Movies are taken from TMDB -> <https://developers.themoviedb.org/>
+The Movies are taken from [TMDB](https://developers.themoviedb.org/)
 
 ### Built with:
 
@@ -52,8 +56,6 @@ You can find it in the Mac App Store
 
 Run `expo start`
 
-### Sample Screenshots
+### API_KEY
 
-![alt text] (https://github.com/ArunPougajendy/movies-carousel/tree/master/assets/Screenshots/initial.png?raw=true)
-![alt text] (https://github.com/ArunPougajendy/movies-carousel/tree/master/assets/Screenshots/swipe.png?raw=true)
-![alt text] (https://github.com/ArunPougajendy/movies-carousel/tree/master/assets/Screenshots/complete.png?raw=true)
+Register free account with [TMDB](https://developers.themoviedb.org/) or contact the Developer

@@ -49,5 +49,11 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
   },
+  retryButton: {
+    alignSelf: 'center',
+    backgroundColor: 'grey',
+    borderRadius: 20,
+    padding: 10,
+  },
 });
 export default styles;
