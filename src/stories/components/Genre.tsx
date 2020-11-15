@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
 interface GenreProps {
-  genres: any;
+  genres: string[];
 }
 
 function Genre(props: GenreProps) {
