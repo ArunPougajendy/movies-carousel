@@ -1,31 +1,52 @@
-First Expo App
+# React Naitve Carousel Animation
 
-Steps to create a basic expo app:
+Implemented React Native carousel animation for displaying Movies
+The Movies are taken from TMDB -> <https://developers.themoviedb.org/>
 
-expo init app_name
-choose to create with blank typeScript template
+### Built with:
 
-installed navigation dependencies
+- Expo
+- TypeScript
+- Lottie [ for loader Animation]
 
-- react-native-safe-area-context
-- @react-navigation/native
-- @react-navigation/stack
-- @react-navigation/bottom-tabs
-- expo install react-native-gesture-handler react-native-reanimated react-native-screens react-native-safe-area-context @react-native-community/masked-view
+I used the Airbnb Javascript style guide <https://github.com/airbnb/javascript>. <br> <br>
 
-Steps to Launch this app:
+## Get Started
 
-### 1. Installation
+### 1. System Requirements
+
+- Globally installed [node](https://nodejs.org/en/)
+
+- Globally installed [Expo CLI](https://docs.expo.io/versions/latest/workflow/expo-cli/)
+  `npm install -g expo-cli`
+
+• yarn
+`brew install yarn`
+
+### 2. Installation
 
 On the command prompt run the following commands
 
 ```sh
-$ git clone https://arunp@git.geekyants.com/arunp/Expo-app.git
+$ git clone
 
-$ cd Expo-app/
+$ cd movies-carousel/
 
 $ yarn install
 ```
+
+### Setup an Android emulator
+
+[Genymotion](https://www.genymotion.com/download/) works well and has a free version
+
+### Install Xcode
+
+You can find it in the Mac App Store
+
+### Download Expo Client on your phone
+
+[iOS](https://apps.apple.com/us/app/expo-client/id982107779)<br>
+[Android](https://play.google.com/store/apps/details?id=host.exp.exponent&hl=en_US)
 
 ### Start Expo
 
