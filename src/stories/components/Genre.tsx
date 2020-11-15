@@ -6,7 +6,6 @@ interface GenreProps {
 }
 
 function Genre(props: GenreProps) {
-  console.log(props.genres);
   return (
     <View style={styles.genresContainer}>
       {props.genres.map((genre: string, index: number) => (

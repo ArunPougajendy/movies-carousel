@@ -1,6 +1,6 @@
 import * as React from 'react';
+import { View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-
 import Home from '../../stories/screens/Home';
 
 export interface Props {
@@ -10,10 +10,10 @@ export interface Props {
 
 function HomeContainer(props: Props) {
   return (
-    <SafeAreaView style={{ flex: 1, paddingBottom: 0 }} >
+    <View style={{ flex: 1, paddingBottom: 0 }}>
       <Home route={props.route} navigation={props.navigation} />
-    </SafeAreaView>
-  )
+    </View>
+  );
 }
 
 export default HomeContainer;

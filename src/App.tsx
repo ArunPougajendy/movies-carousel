@@ -31,11 +31,10 @@ export default class App extends React.Component {
             const newRouteName = this.getActiveRouteName(state);
             // Save the current route name for later comparision
             this.currentRoute = newRouteName;
-          }}
-        >
+          }}>
           <AppNavigator />
         </NavigationContainer>
       </SafeAreaProvider>
-    )
+    );
   }
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   StyleSheet,
   StatusBar,
@@ -16,7 +16,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { data } from '../../../data';
 import Genre from '../../components/Genre';
 import Rating from '../../components/Rating';
-
+import { getMovies, MovieType } from '../../../actions/movies';
 interface Props {
   route: any;
   navigation: any;
@@ -64,7 +64,7 @@ const Backdrop = ({ movies, scrollX }: { movies: any; scrollX: any }) => {
       <FlatList
         data={movies}
         keyExtractor={(_, index) => `${index}`}
-        renderItem={({ item, index }) => {
+        renderItem={({ item, index }: { item: MovieType; index: number }) => {
           const inputRange = [(index - 2) * ITEM_SIZE, (index - 1) * ITEM_SIZE];
           const translateX = scrollX.interpolate({
             inputRange,
@@ -82,7 +82,13 @@ const Backdrop = ({ movies, scrollX }: { movies: any; scrollX: any }) => {
                   width={width}
                   viewBox={`0 0 ${width} ${height}`}
                   style={{ transform: [{ translateX }] }}>
-                  <Rect height={height} width={width} x='0' y='0' fill='red' />
+                  <Rect
+                    height={height}
+                    width={width}
+                    x='0'
+                    y='0'
+                    fill='white'
+                  />
                 </AnimatedSvg>
               }>
               <Image
@@ -103,16 +109,33 @@ const Backdrop = ({ movies, scrollX }: { movies: any; scrollX: any }) => {
 
 export default function Home(props: Props) {
   const scrollX = React.useRef(new Animated.Value(0)).current;
+  const [movies, setMovies] = useState<any>([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      const movies = await getMovies();
+      setMovies([{ key: 'left-spacer' }, ...movies, { key: 'right-spacer' }]);
+    };
+    if (movies.length === 0) {
+      fetchData();
+    }
+  }, []);
+  if (movies.length === 0) {
+    return (
+      <View style={[styles.container, { justifyContent: 'center' }]}>
+        <Text style={{ alignSelf: 'center' }}>Loading ...</Text>
+      </View>
+    );
+  }
   return (
     <View style={styles.container}>
       <StatusBar hidden />
-      <Backdrop movies={orgData} scrollX={scrollX} />
+      <Backdrop movies={movies} scrollX={scrollX} />
       <Animated.FlatList
         showsHorizontalScrollIndicator={false}
-        data={orgData}
+        data={movies}
         horizontal
         keyExtractor={(_: any, index: number) => `${index}`}
-        contentContainerStyle={{ alignItems: 'center' }}
+        contentContainerStyle={{ alignItems: 'center', marginTop: 100 }}
         snapToInterval={ITEM_SIZE}
         decelerationRate={0}
         bounces={false}
@@ -121,7 +144,7 @@ export default function Home(props: Props) {
           { useNativeDriver: true },
         )}
         scrollEventThrottle={16} // 60fps
-        renderItem={({ item, index }: { item: any; index: number }) => {
+        renderItem={({ item, index }: { item: MovieType; index: number }) => {
           if (!item.poster) {
             return <View style={styles.spacerConatiner} />;
           }
@@ -132,13 +155,20 @@ export default function Home(props: Props) {
           ];
           const translateY = scrollX.interpolate({
             inputRange,
-            outputRange: [50, 0, 50],
+            outputRange: [100, -50, 100],
+          });
+          const opacity = scrollX.interpolate({
+            inputRange,
+            outputRange: [0.3, 1, 0.3],
           });
 
           return (
-            <View key={index} style={styles.movieContainer}>
+            <Animated.View key={index} style={[styles.movieContainer]}>
               <Animated.View
-                style={[styles.movieInner, { transform: [{ translateY }] }]}>
+                style={[
+                  styles.movieInner,
+                  { opacity, transform: [{ translateY }] },
+                ]}>
                 <Image
                   source={{ uri: item.poster }}
                   style={styles.posterImage}
@@ -150,7 +180,7 @@ export default function Home(props: Props) {
                   {item.description}
                 </Text>
               </Animated.View>
-            </View>
+            </Animated.View>
           );
         }}
       />
