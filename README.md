@@ -1,5 +1,9 @@
 # React Naitve Carousel Animation
 
+## Demo
+
+![demogif](https://user-images.githubusercontent.com/46255160/99196398-239bb100-27b2-11eb-9f8f-60cb87d97973.gif)
+
 Implemented React Native carousel animation for displaying Movies
 The Movies are taken from TMDB -> <https://developers.themoviedb.org/>
 
@@ -28,7 +32,7 @@ I used the Airbnb Javascript style guide <https://github.com/airbnb/javascript>.
 On the command prompt run the following commands
 
 ```sh
-$ git clone
+$ git clone https://github.com/ArunPougajendy/movies-carousel.git
 
 $ cd movies-carousel/
 
