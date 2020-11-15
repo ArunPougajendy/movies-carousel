@@ -1,0 +1,33 @@
+import React from "react";
+import {
+  View,
+  Text,
+  StyleSheet
+} from "react-native";
+import { AntDesign } from '@expo/vector-icons';
+
+
+interface RatingProps {
+  rating: number;
+}
+function Rating(props: RatingProps) {
+  const filledStars = Math.floor(props.rating / 2);
+  const emptyStars = Array(5 - filledStars).fill('staro');
+  const stars = [...Array(filledStars).fill('star'), ...emptyStars]
+  return (
+    <View style={styles.ratingContainer}>
+      {stars.map((star: string, index: number) => <AntDesign key={index} name={star} size={12} color="gold" />)}
+    </View>
+  )
+}
+
+export default Rating;
+
+const styles = StyleSheet.create({
+  ratingContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginVertical: 5,
+  }
+});
