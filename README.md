@@ -1,5 +1,9 @@
 # React Naitve Carousel Animation
 
+
+## Demo
+![demogif](https://user-images.githubusercontent.com/46255160/99196398-239bb100-27b2-11eb-9f8f-60cb87d97973.gif)
+
 Implemented React Native carousel animation for displaying Movies
 The Movies are taken from TMDB -> <https://developers.themoviedb.org/>
 
@@ -51,9 +55,3 @@ You can find it in the Mac App Store
 ### Start Expo
 
 Run `expo start`
-
-### Sample Screenshots
-
-<img width="524" alt="initial" src="https://user-images.githubusercontent.com/46255160/99196075-0cf45a80-27b0-11eb-9c3b-5786f59548a7.png">
-<img width="524" alt="swipe" src="https://user-images.githubusercontent.com/46255160/99196118-44fb9d80-27b0-11eb-9915-b7d556cccbc5.png">
-<img width="524" alt="complete" src="https://user-images.githubusercontent.com/46255160/99196125-4c22ab80-27b0-11eb-8d79-0013f5ff2fc6.png">
