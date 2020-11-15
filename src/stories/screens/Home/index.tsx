@@ -7,7 +7,11 @@ import {
   Animated,
   Dimensions,
   Image,
+  FlatList,
 } from 'react-native';
+import MaskedView from '@react-native-community/masked-view';
+import Svg, { Rect } from 'react-native-svg';
+import { LinearGradient } from 'expo-linear-gradient';
 
 import { data } from '../../../data';
 import Genre from '../../components/Genre';
@@ -22,6 +26,7 @@ const { width, height } = Dimensions.get('window');
 const ITEM_SIZE = width * 0.72;
 const SPACING = 10;
 const SPACER_ITEM_SIZE = (width - ITEM_SIZE) / 2;
+const BACKDROP_HEIGHT = height * 0.6;
 const getImagePath = (path: string) =>
   `https://image.tmdb.org/t/p/w440_and_h660_face${path}`;
 const getBackdropPath = (path: string) =>
@@ -51,11 +56,57 @@ const movies = data.map(
 
 const orgData = [{ key: 'left-Spact' }, ...movies, { key: 'right-Spact' }];
 
+const AnimatedSvg = Animated.createAnimatedComponent(Svg);
+
+const Backdrop = ({ movies, scrollX }: { movies: any; scrollX: any }) => {
+  return (
+    <View style={styles.backdropContainer}>
+      <FlatList
+        data={movies}
+        keyExtractor={(_, index) => `${index}`}
+        renderItem={({ item, index }) => {
+          const inputRange = [(index - 2) * ITEM_SIZE, (index - 1) * ITEM_SIZE];
+          const translateX = scrollX.interpolate({
+            inputRange,
+            outputRange: [-width, 0],
+          });
+          if (!item.backdrop) {
+            return null;
+          }
+          return (
+            <MaskedView
+              style={{ position: 'absolute' }}
+              maskElement={
+                <AnimatedSvg
+                  height={height}
+                  width={width}
+                  viewBox={`0 0 ${width} ${height}`}
+                  style={{ transform: [{ translateX }] }}>
+                  <Rect height={height} width={width} x='0' y='0' fill='red' />
+                </AnimatedSvg>
+              }>
+              <Image
+                source={{ uri: item.poster }}
+                style={styles.backdropImage}
+              />
+            </MaskedView>
+          );
+        }}
+      />
+      <LinearGradient
+        colors={['transparent', 'white']}
+        style={styles.backdropLinear}
+      />
+    </View>
+  );
+};
+
 export default function Home(props: Props) {
   const scrollX = React.useRef(new Animated.Value(0)).current;
   return (
     <View style={styles.container}>
       <StatusBar hidden />
+      <Backdrop movies={orgData} scrollX={scrollX} />
       <Animated.FlatList
         showsHorizontalScrollIndicator={false}
         data={orgData}
@@ -110,8 +161,6 @@ export default function Home(props: Props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   movieContainer: {
     width: ITEM_SIZE,
@@ -134,5 +183,23 @@ const styles = StyleSheet.create({
   spacerConatiner: {
     height: 200,
     width: SPACER_ITEM_SIZE,
+  },
+  backdropContainer: {
+    position: 'absolute',
+    height: BACKDROP_HEIGHT,
+    width: width,
+    backgroundColor: 'red',
+  },
+  backdropImage: {
+    position: 'absolute',
+    resizeMode: 'cover',
+    height: BACKDROP_HEIGHT,
+    width,
+  },
+  backdropLinear: {
+    width,
+    height: BACKDROP_HEIGHT,
+    position: 'absolute',
+    bottom: 0,
   },
 });
