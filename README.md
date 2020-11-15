@@ -54,6 +54,6 @@ Run `expo start`
 
 ### Sample Screenshots
 
-![alt text] (https://github.com/ArunPougajendy/movies-carousel/tree/master/assets/Screenshots/initial.png?raw=true)
-![alt text] (https://github.com/ArunPougajendy/movies-carousel/tree/master/assets/Screenshots/swipe.png?raw=true)
-![alt text] (https://github.com/ArunPougajendy/movies-carousel/tree/master/assets/Screenshots/complete.png?raw=true)
+<img width="524" alt="initial" src="https://user-images.githubusercontent.com/46255160/99196075-0cf45a80-27b0-11eb-9c3b-5786f59548a7.png">
+<img width="524" alt="swipe" src="https://user-images.githubusercontent.com/46255160/99196118-44fb9d80-27b0-11eb-9915-b7d556cccbc5.png">
+<img width="524" alt="complete" src="https://user-images.githubusercontent.com/46255160/99196125-4c22ab80-27b0-11eb-8d79-0013f5ff2fc6.png">
