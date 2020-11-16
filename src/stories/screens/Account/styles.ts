@@ -16,6 +16,23 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
   },
+  alertBox: {
+    position: 'absolute',
+    justifyContent: 'space-evenly',
+    height: height / 4,
+    width: width - 50,
+    backgroundColor: 'white',
+    alignSelf: 'center',
+    borderRadius: 20,
+    zIndex: 1,
+    alignItems: 'center',
+  },
+  alertButton: {
+    padding: 10,
+    borderRadius: 20,
+    borderWidth: 1,
+    backgroundColor: 'rgba(0,0,0,0.2)',
+  },
   imageConatiner: {
     position: 'absolute',
     alignSelf: 'flex-end',
@@ -27,6 +44,7 @@ const styles = StyleSheet.create({
     height: IMAGE_SIZE,
     width: IMAGE_SIZE,
     borderRadius: IMAGE_SIZE / 2,
+    resizeMode: 'cover',
   },
   detailsContainer: {
     padding: 20,
@@ -61,6 +79,12 @@ const styles = StyleSheet.create({
     flex: 1,
     height: 26,
     justifyContent: 'center',
+  },
+  retryButton: {
+    alignSelf: 'center',
+    backgroundColor: 'grey',
+    borderRadius: 20,
+    padding: 10,
   },
 });
 export default styles;

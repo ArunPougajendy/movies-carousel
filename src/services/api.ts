@@ -1,7 +1,4 @@
-import API_KEY from './config';
-
 const API_BASE = `https://api.themoviedb.org/3/`;
-const API_URL = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&sort_by=popularity.desc`;
 
 export const fetchApi = async (endPoint: string) => {
   const path = `${API_BASE}${endPoint}`;

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Platform } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
-
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import HomeStack from './HomeStack';
 import AccountStack from './AccountStack';
 
@@ -16,7 +16,7 @@ const android = Platform.OS === 'android';
 export default function () {
   return (
     <Tab.Navigator
-      initialRouteName='Account'
+      initialRouteName='Home'
       lazy={false}
       tabBarOptions={{
         activeTintColor: '#1D2531',
@@ -39,7 +39,7 @@ export default function () {
         name='Home'
         options={{
           tabBarIcon: (props: Props) => (
-            <Ionicons name='md-home' size={24} color={props.color} />
+            <Ionicons name='md-color-wand' size={24} color={props.color} />
           ),
           tabBarLabel: 'Home',
         }}
@@ -49,9 +49,13 @@ export default function () {
         name='Account'
         options={{
           tabBarIcon: (props: Props) => (
-            <Ionicons name='md-settings' size={24} color={props.color} />
+            <MaterialCommunityIcons
+              name='movie-roll'
+              size={24}
+              color={props.color}
+            />
           ),
-          tabBarLabel: 'Account',
+          tabBarLabel: 'Movie',
         }}
       />
     </Tab.Navigator>

@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Image, Animated, Easing } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  Animated,
+  Easing,
+  TouchableOpacity,
+} from 'react-native';
 import {
   FlingGestureHandler,
   Directions,
@@ -7,14 +15,14 @@ import {
 } from 'react-native-gesture-handler';
 import { Transition, Transitioning } from 'react-native-reanimated';
 import posed, { Transition as PosedTransition } from 'react-native-pose';
-import { movies } from '../../../../data';
-import { formatMovieResponse } from '../../../utils/helper';
+import { isApikeyAvailable } from '../../../utils/helper';
 import styles, { colors, height, DURATION } from './styles';
 import Title from '../../components/Account/Title';
 import Description from '../../components/Account/Description';
 import Details from '../../components/Account/Details';
-
-const formattedMovies = formatMovieResponse(movies);
+import { getMovies } from '../../../actions/movies';
+import Loader from '../../components/Home/Loading';
+import { Feather } from '@expo/vector-icons';
 
 const transition = (
   <Transition.Together>
@@ -45,12 +53,31 @@ const PosedView = posed.View({
   exit: { opacity: 0, rotate: '180deg', ...config },
 });
 
-function Account(props: any) {
+function MovieReels(props: any) {
+  const [welcome, setWelcome] = useState(true);
+  const [movies, setMovies] = useState<any>([]);
   const [index, setIndex] = useState(0);
   const color = index % 2 === 0 ? colors.lightText : colors.darkText;
   const activeIndex = React.useRef(new Animated.Value(0)).current;
   const animation = React.useRef(new Animated.Value(0)).current;
   const ref = React.useRef<any>();
+  useEffect(() => {
+    fetchMoviesHelper();
+  }, []);
+
+  const fetchMoviesHelper = () => {
+    if (isApikeyAvailable()) {
+      const fetchData = async () => {
+        const movies = await getMovies(true);
+        setMovies(movies);
+      };
+      if (movies.length === 0) {
+        fetchData();
+      }
+    } else {
+      alert('API_KEY not available \n Register or contact Developer');
+    }
+  };
   useEffect(() => {
     Animated.timing(animation, {
       toValue: activeIndex,
@@ -71,13 +98,25 @@ function Account(props: any) {
     outputRange: [height, 0, -height],
   });
 
+  if (movies.length === 0) {
+    return (
+      <View style={[styles.container, { justifyContent: 'center' }]}>
+        <Loader />
+        <TouchableOpacity
+          onPress={fetchMoviesHelper}
+          style={styles.retryButton}>
+          <Text style={{ color: 'white' }}>Retry</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
   return (
     <FlingGestureHandler
       key={'up'}
       direction={Directions.UP}
       onHandlerStateChange={(e: any) => {
         if (e.nativeEvent.state === State.END) {
-          if (index === formattedMovies.length - 1) {
+          if (index === movies.length - 1) {
             return;
           }
           setActiveIndex(index + 1);
@@ -99,11 +138,11 @@ function Account(props: any) {
             style={[
               StyleSheet.absoluteFillObject,
               {
-                height: height * formattedMovies.length,
+                height: height * movies.length,
                 transform: [{ translateY }],
               },
             ]}>
-            {formattedMovies.map((_: any, i: number) => {
+            {movies.map((_: any, i: number) => {
               return (
                 <View
                   key={i}
@@ -116,6 +155,19 @@ function Account(props: any) {
               );
             })}
           </Animated.View>
+          {welcome && (
+            <View style={styles.alertBox}>
+              <Feather name='chevrons-up' size={50} color='black' />
+              <TouchableOpacity
+                style={styles.alertButton}
+                onPress={() => {
+                  setWelcome(false);
+                }}>
+                <Text>Scroll Options</Text>
+              </TouchableOpacity>
+              <Feather name='chevrons-down' size={50} color='black' />
+            </View>
+          )}
           <PosedTransition>
             {/* Rendering same image twice with different 'key' to stimualte animation */}
             {index % 2 === 0 ? (
@@ -129,7 +181,7 @@ function Account(props: any) {
                   },
                 ]}>
                 <Image
-                  source={{ uri: formattedMovies[index].poster }}
+                  source={{ uri: movies[index].poster }}
                   style={styles.image}
                 />
               </PosedView>
@@ -144,7 +196,7 @@ function Account(props: any) {
                   },
                 ]}>
                 <Image
-                  source={{ uri: formattedMovies[index].poster }}
+                  source={{ uri: movies[index].poster }}
                   style={styles.image}
                 />
               </PosedView>
@@ -154,16 +206,12 @@ function Account(props: any) {
             ref={ref}
             transition={transition}
             style={styles.detailsContainer}>
-            <Title
-              color={color}
-              index={index}
-              text={formattedMovies[index].title}
-            />
-            <Details color={color} index={index} movies={formattedMovies} />
+            <Title color={color} index={index} text={movies[index].title} />
+            <Details color={color} index={index} movies={movies} />
             <Description
               color={color}
               index={index}
-              text={formattedMovies[index].description}
+              text={movies[index].description}
             />
           </Transitioning.View>
         </View>
@@ -172,4 +220,4 @@ function Account(props: any) {
   );
 }
 
-export default Account;
+export default MovieReels;

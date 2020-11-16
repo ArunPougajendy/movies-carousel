@@ -3,7 +3,8 @@ import API_KEY from '../services/config';
 import { formatMovieResponse } from '../utils/helper';
 
 const END_POINTS: any = {
-  getMovies: `discover/movie?api_key=${API_KEY}&sort_by=popularity.desc`,
+  getMoviesByPop: `discover/movie?api_key=${API_KEY}&sort_by=popularity.desc`,
+  getMoviesByRate: `discover/movie?api_key=${API_KEY}&sort_by=vote_count.desc`,
 };
 
 export interface MovieResponseType {
@@ -27,9 +28,11 @@ export interface MovieType {
   genres: any;
 }
 
-export async function getMovies() {
+export async function getMovies(alternate?: boolean) {
   try {
-    const response = await fetchApi(END_POINTS.getMovies);
+    const response = await fetchApi(
+      alternate ? END_POINTS.getMoviesByRate : END_POINTS.getMoviesByPop,
+    );
     const json = await response.json();
     const results = json.results;
     const movies = formatMovieResponse(results);

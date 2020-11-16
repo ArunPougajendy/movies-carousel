@@ -24,7 +24,7 @@ export default function Home(props: Props) {
   const scrollX = React.useRef(new Animated.Value(0)).current;
   const [movies, setMovies] = useState<any>([]);
   useEffect(() => {
-    // fetchMoviesHelper();
+    fetchMoviesHelper();
   }, []);
 
   const fetchMoviesHelper = () => {
