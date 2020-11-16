@@ -34,7 +34,7 @@ I used the Airbnb Javascript style guide <https://github.com/airbnb/javascript>.
 On the command prompt run the following commands
 
 ```sh
-$ git clone https://arunp@git.geekyants.com/arunp/movies-carousel.git
+$ git clone https://github.com/ArunPougajendy/movies-carousel.git
 
 $ cd movies-carousel/
 
