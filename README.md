@@ -13,7 +13,7 @@ The Movies are taken from [TMDB](https://developers.themoviedb.org/)
 - TypeScript
 - Lottie - for loader Animation
 - React Native ReAnimated
-- React Native Post
+- React Native Posw
 
 I used the Airbnb Javascript style guide <https://github.com/airbnb/javascript>. <br> <br>
 
