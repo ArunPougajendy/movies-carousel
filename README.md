@@ -2,7 +2,7 @@
 
 ## Demo
 
-![demogif](https://user-images.githubusercontent.com/46255160/99196398-239bb100-27b2-11eb-9f8f-60cb87d97973.gif)
+![demo2](https://user-images.githubusercontent.com/53349433/99206979-ccfa9b00-27e2-11eb-9c05-8c0f9685ac67.gif)
 
 Implemented React Native carousel animation for displaying Movies
 The Movies are taken from [TMDB](https://developers.themoviedb.org/)
@@ -11,7 +11,7 @@ The Movies are taken from [TMDB](https://developers.themoviedb.org/)
 
 - Expo
 - TypeScript
-- Lottie [ for loader Animation]
+- Lottie - for loader Animation
 - React Native ReAnimated
 - React Native Post
 
