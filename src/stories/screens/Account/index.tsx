@@ -1,141 +1,75 @@
 import React, { useState, useEffect } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Dimensions,
-  Image,
-  Animated,
-} from 'react-native';
+import { View, StyleSheet, Image, Animated, Easing } from 'react-native';
 import {
   FlingGestureHandler,
   Directions,
   State,
 } from 'react-native-gesture-handler';
-import { FlatList } from 'react-native-gesture-handler';
+import { Transition, Transitioning } from 'react-native-reanimated';
+import posed, { Transition as PosedTransition } from 'react-native-pose';
 import { movies } from '../../../../data';
-import { DetailsKey } from '../../../utils/constants';
 import { formatMovieResponse } from '../../../utils/helper';
-import OverflowItems from '../../components/Account/OverflowItems';
-import Genre from '../../components/Home/Genre';
+import styles, { colors, height, DURATION } from './styles';
+import Title from '../../components/Account/Title';
+import Description from '../../components/Account/Description';
+import Details from '../../components/Account/Details';
 
-const { width, height } = Dimensions.get('window');
 const formattedMovies = formatMovieResponse(movies);
-const DURATION = 700;
-const TITLE_SIZE = 36;
-const SPACING = 80;
-const IMAGE_SIZE = width * 0.8;
 
-const colors = {
-  lightBg: '#323232',
-  darkBg: '#2C2D51',
-  lightText: 'grey',
-  darkText: '#323232',
+const transition = (
+  <Transition.Together>
+    <Transition.Out
+      type='slide-bottom'
+      durationMs={DURATION}
+      interpolation='easeIn'
+    />
+    <Transition.Change />
+    <Transition.In
+      type='slide-bottom'
+      durationMs={DURATION}
+      interpolation='easeOut'
+    />
+  </Transition.Together>
+);
+
+const config = {
+  transition: {
+    type: 'tween',
+    duration: DURATION,
+    easing: Easing.elastic(0.7),
+  },
 };
 
-const Item = ({ children, style }: any) => {
-  return (
-    <View
-      style={[
-        {
-          justifyContent: 'center',
-          backgroundColor: 'transparent',
-          overflow: 'hidden',
-        },
-        style,
-      ]}>
-      {children}
-    </View>
-  );
-};
-
-const Description = ({ index, text, color }: any) => {
-  return (
-    <Item>
-      <Text key={`description-${index}`} style={{ fontSize: 12, color }}>
-        {text}
-      </Text>
-    </Item>
-  );
-};
-
-const Title = ({ index, text, color }: any) => {
-  return (
-    <Item style={{ height: TITLE_SIZE * 3, justifyContent: 'flex-end' }}>
-      <Text
-        key={`title-${index}`}
-        numberOfLines={2}
-        style={{ fontSize: TITLE_SIZE, fontWeight: '900', color }}>
-        {text}
-      </Text>
-    </Item>
-  );
-};
-
-const Details = ({ color, index }: any) => {
-  return (
-    <View style={{ marginVertical: SPACING }}>
-      {DetailsKey.map((key: string) => {
-        return (
-          <View
-            key={key}
-            style={{
-              alignItems: 'center',
-              flexDirection: 'row',
-              marginBottom: 25,
-            }}>
-            {key === 'genres' ? (
-              <Item
-                style={{
-                  flex: 1,
-                  height: 50,
-                  justifyContent: 'flex-start',
-                }}>
-                <View style={{ width: width / 3 }}>
-                  <Genre
-                    genres={formattedMovies[index][key]}
-                    customStyle={{
-                      flexDirection: 'row',
-                      flexWrap: 'wrap',
-                      justifyContent: 'flex-start',
-                      alignItems: 'flex-start',
-                      marginVertical: 0,
-                    }}
-                  />
-                </View>
-              </Item>
-            ) : (
-              <Item style={{ flex: 1, height: 26, justifyContent: 'center' }}>
-                <Text key={`${key}-${index}`} style={{ fontSize: 12, color }}>
-                  {formattedMovies[index][key]}
-                </Text>
-              </Item>
-            )}
-          </View>
-        );
-      })}
-    </View>
-  );
-};
+const PosedView = posed.View({
+  enter: { opacity: 1, rotate: '0deg', ...config },
+  exit: { opacity: 0, rotate: '180deg', ...config },
+});
 
 function Account(props: any) {
   const [index, setIndex] = useState(0);
   const color = index % 2 === 0 ? colors.lightText : colors.darkText;
-  const headingColor = index % 2 === 0 ? colors.lightBg : colors.darkText;
   const activeIndex = React.useRef(new Animated.Value(0)).current;
   const animation = React.useRef(new Animated.Value(0)).current;
+  const ref = React.useRef<any>();
   useEffect(() => {
     Animated.timing(animation, {
       toValue: activeIndex,
       duration: DURATION,
       useNativeDriver: true,
-    });
+    }).start();
   });
 
   const setActiveIndex = (newIndex: number) => {
     activeIndex.setValue(newIndex);
+    // Intimate the component that the component has been changed, do the aimation
+    ref.current.animateNextTransition();
     setIndex(newIndex);
   };
+
+  const translateY = animation.interpolate({
+    inputRange: [-1, 0, 1],
+    outputRange: [height, 0, -height],
+  });
 
   return (
     <FlingGestureHandler
@@ -161,36 +95,77 @@ function Account(props: any) {
           }
         }}>
         <View style={styles.container}>
-          <View
+          <Animated.View
             style={[
-              styles.imageConatiner,
-              { borderColor: index % 2 === 0 ? colors.darkBg : colors.lightBg },
+              StyleSheet.absoluteFillObject,
+              {
+                height: height * formattedMovies.length,
+                transform: [{ translateY }],
+              },
             ]}>
-            <Image
-              source={{ uri: formattedMovies[index].poster }}
-              style={{
-                height: IMAGE_SIZE,
-                width: IMAGE_SIZE,
-                borderRadius: IMAGE_SIZE / 2,
-                right: -SPACING * 0.2,
-                padding: SPACING,
-              }}
-            />
-          </View>
-          <View
-            style={{ padding: 20, flex: 1, justifyContent: 'space-evenly' }}>
+            {formattedMovies.map((_: any, i: number) => {
+              return (
+                <View
+                  key={i}
+                  style={{
+                    height: height,
+                    backgroundColor:
+                      i % 2 === 0 ? colors.darkBg : colors.lightBg,
+                  }}
+                />
+              );
+            })}
+          </Animated.View>
+          <PosedTransition>
+            {/* Rendering same image twice with different 'key' to stimualte animation */}
+            {index % 2 === 0 ? (
+              <PosedView
+                key='image0'
+                style={[
+                  styles.imageConatiner,
+                  {
+                    borderColor:
+                      index % 2 === 0 ? colors.darkBg : colors.lightBg,
+                  },
+                ]}>
+                <Image
+                  source={{ uri: formattedMovies[index].poster }}
+                  style={styles.image}
+                />
+              </PosedView>
+            ) : (
+              <PosedView
+                key='image1'
+                style={[
+                  styles.imageConatiner,
+                  {
+                    borderColor:
+                      index % 2 === 0 ? colors.darkBg : colors.lightBg,
+                  },
+                ]}>
+                <Image
+                  source={{ uri: formattedMovies[index].poster }}
+                  style={styles.image}
+                />
+              </PosedView>
+            )}
+          </PosedTransition>
+          <Transitioning.View
+            ref={ref}
+            transition={transition}
+            style={styles.detailsContainer}>
             <Title
-              color={headingColor}
+              color={color}
               index={index}
               text={formattedMovies[index].title}
             />
-            <Details color={color} index={index} />
+            <Details color={color} index={index} movies={formattedMovies} />
             <Description
-              color={headingColor}
+              color={color}
               index={index}
               text={formattedMovies[index].description}
             />
-          </View>
+          </Transitioning.View>
         </View>
       </FlingGestureHandler>
     </FlingGestureHandler>
@@ -198,18 +173,3 @@ function Account(props: any) {
 }
 
 export default Account;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-  },
-  imageConatiner: {
-    position: 'absolute',
-    alignSelf: 'flex-end',
-    justifyContent: 'center',
-    right: -SPACING * 1.1,
-    borderRadius: IMAGE_SIZE / 2,
-    borderWidth: 1,
-  },
-});

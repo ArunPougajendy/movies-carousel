@@ -4,6 +4,7 @@ import { AntDesign } from '@expo/vector-icons';
 
 interface RatingProps {
   rating: number;
+  customStyle?: any;
   noMargin?: boolean;
 }
 function Rating(props: RatingProps) {
@@ -15,6 +16,7 @@ function Rating(props: RatingProps) {
       style={[
         styles.ratingContainer,
         { marginVertical: props.noMargin ? 0 : 5 },
+        props.customStyle,
       ]}>
       {stars.map((star: string, index: number) => (
         <AntDesign key={index} name={star} size={12} color='gold' />

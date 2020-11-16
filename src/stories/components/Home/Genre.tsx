@@ -4,6 +4,7 @@ import { View, Text, StyleSheet } from 'react-native';
 interface GenreProps {
   genres: string[];
   customStyle?: any;
+  customTextStyle?: any;
 }
 
 function Genre(props: GenreProps) {
@@ -11,7 +12,7 @@ function Genre(props: GenreProps) {
     <View style={[styles.genresContainer, props.customStyle]}>
       {props.genres.map((genre: string, index: number) => (
         <View key={index} style={styles.genre}>
-          <Text style={styles.genreText}>{genre}</Text>
+          <Text style={[styles.genreText, props.customTextStyle]}>{genre}</Text>
         </View>
       ))}
     </View>
@@ -32,7 +33,7 @@ const styles = StyleSheet.create({
     margin: 3,
     padding: 3,
     borderWidth: 1,
-    borderColor: 'rgba(0,0,0,0.2)',
+    borderColor: 'gold',
     borderRadius: 20,
   },
   genreText: {
